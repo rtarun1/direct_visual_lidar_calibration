@@ -10,6 +10,7 @@ This package provides a toolbox for LiDAR-camera calibration that is:
     ```bash
     xhost +local:root
     ```
+### Insta 360
 - **Preproccesing**
     ```bash
     docker run --rm \
@@ -26,13 +27,13 @@ This package provides a toolbox for LiDAR-camera calibration that is:
     -e NVIDIA_VISIBLE_DEVICES=all \
     -e ROS_DOMAIN_ID=69 \
     -v $HOME/.Xauthority:/root/.Xauthority \
-    -v /home/tarun/insta360:/tmp/input_bags \
-    -v /home/tarun/insta360/result:/tmp/preprocessed \
+    -v $HOME/insta360:/tmp/input_bags \
+    -v $HOME/insta360/result:/tmp/preprocessed \
     koide3/direct_visual_lidar_calibration:humble \
     ros2 run direct_visual_lidar_calibration preprocess \
-    --image_topic /camera1/camera1/color/image_raw \
-    --camera_info_topic /camera1/camera1/color/camera_info \
+    --image_topic /equirectangular/image \
     --points_topic /livox/lidar \
+    --camera_model equirectangular \
     -v /tmp/input_bags /tmp/preprocessed
     ```
 - **Initial guess(Manual)**
@@ -51,7 +52,7 @@ This package provides a toolbox for LiDAR-camera calibration that is:
     -e NVIDIA_VISIBLE_DEVICES=all \
     -e ROS_DOMAIN_ID=69 \
     -v $HOME/.Xauthority:/root/.Xauthority \
-    -v /home/tarun/livox/result:/tmp/preprocessed \
+    -v $HOME/insta360/result:/tmp/preprocessed \
     koide3/direct_visual_lidar_calibration:humble \
     ros2 run direct_visual_lidar_calibration initial_guess_manual \
     /tmp/preprocessed
@@ -73,7 +74,7 @@ This package provides a toolbox for LiDAR-camera calibration that is:
     -e NVIDIA_VISIBLE_DEVICES=all \
     -e ROS_DOMAIN_ID=69 \
     -v $HOME/.Xauthority:/root/.Xauthority \
-    -v /home/tarun/livox/result:/tmp/preprocessed \
+    -v $HOME/insta360/result:/tmp/preprocessed \
     koide3/direct_visual_lidar_calibration:humble \
     ros2 run direct_visual_lidar_calibration calibrate \
     /tmp/preprocessed
@@ -94,7 +95,7 @@ This package provides a toolbox for LiDAR-camera calibration that is:
     -e NVIDIA_VISIBLE_DEVICES=all \
     -e ROS_DOMAIN_ID=69 \
     -v $HOME/.Xauthority:/root/.Xauthority \
-    -v /home/tarun/livox/result:/tmp/preprocessed \
+    -v $HOME/insta360/result:/tmp/preprocessed \
     koide3/direct_visual_lidar_calibration:humble \
     ros2 run direct_visual_lidar_calibration viewer \
     /tmp/preprocessed
