@@ -101,6 +101,62 @@ This package provides a toolbox for LiDAR-camera calibration that is:
     /tmp/preprocessed
     ```
 
+### Realsense 1
+- **Preproccesing**
+    ```bash
+    docker run --rm \
+    --gpus all \
+    --net=host \
+    --ipc=host \
+    --privileged \
+    -e DISPLAY=$DISPLAY \
+    -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+    -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+    -e PULSE_SERVER=$PULSE_SERVER \
+    -e QT_X11_NO_MITSHM=1 \
+    -e NVIDIA_DRIVER_CAPABILITIES=all \
+    -e NVIDIA_VISIBLE_DEVICES=all \
+    -e ROS_DOMAIN_ID=69 \
+    -v $HOME/.Xauthority:/root/.Xauthority \
+    -v $HOME/insta360:/tmp/input_bags \
+    -v $HOME/insta360/result:/tmp/preprocessed \
+    koide3/direct_visual_lidar_calibration:humble \
+    ros2 run direct_visual_lidar_calibration preprocess \
+    --image_topic /camera1/camera1/color/image_raw \
+    --camera_info_topic /camera1/camera1/color/camera_info \
+    --points_topic /livox/lidar \
+    -v /tmp/input_bags /tmp/preprocessed
+    ```
+
+### Realsense 2
+- **Preproccesing**
+    ```bash
+    docker run --rm \
+    --gpus all \
+    --net=host \
+    --ipc=host \
+    --privileged \
+    -e DISPLAY=$DISPLAY \
+    -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+    -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+    -e PULSE_SERVER=$PULSE_SERVER \
+    -e QT_X11_NO_MITSHM=1 \
+    -e NVIDIA_DRIVER_CAPABILITIES=all \
+    -e NVIDIA_VISIBLE_DEVICES=all \
+    -e ROS_DOMAIN_ID=69 \
+    -v $HOME/.Xauthority:/root/.Xauthority \
+    -v $HOME/insta360:/tmp/input_bags \
+    -v $HOME/insta360/result:/tmp/preprocessed \
+    koide3/direct_visual_lidar_calibration:humble \
+    ros2 run direct_visual_lidar_calibration preprocess \
+    --image_topic /camera2/camera2/color/image_raw \
+    --camera_info_topic /camera2/camera2/color/camera_info \
+    --points_topic /livox/lidar \
+    -v /tmp/input_bags /tmp/preprocessed
+    ```
+    
+
+
 ## Result
 
 - Once the calibration is completed, open `calib.json` in the data directory with a text editor and find the calibration result `T_lidar_camera: [x, y, z, qx, qy, qz, qw]` that transforms a 3D point in the camera frame into the LiDAR frame (i.e., `p_lidar = T_lidar_camera * p_camera`).
