@@ -51,7 +51,7 @@ private:
 class PreprocessROS1 : public Preprocess {
 protected:
   template <typename T>
-  boost::shared_ptr<T> get_first_message(const std::string& bag_filename, const std::string& topic) const {
+  std::shared_ptr<T> get_first_message(const std::string& bag_filename, const std::string& topic) const {
     rosbag::Bag bag(bag_filename);
     rosbag::View view(bag, rosbag::TopicQuery(topic));
 
